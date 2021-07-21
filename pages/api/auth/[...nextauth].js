@@ -13,12 +13,12 @@ const options = {
             },
             async authorize(credentials) {
                 try {
-                    const user = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
-                        identifier: credentials.username,
+                    const user = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}auth/login`, {
+                        name: credentials.username,
                         password: credentials.password
                     });
                     if (user.data) {
-                        console.log('Response from server auth:', user.data);
+                        //console.log('Response from server auth:', user.data);
                         return user.data;
                     }
                     return null;
@@ -39,8 +39,6 @@ const options = {
                 token.jwt = user.jwt;
                 token.user = user.user;
             }
-            // Delete orders to prevent cookie size from being bigger than 4096 characters
-            delete token?.user?.orders;
             return Promise.resolve(token);
         },
         session: async (session, token) => {
@@ -49,10 +47,6 @@ const options = {
             console.log('Session its solving to ->', session);
             return Promise.resolve(session);
         }
-    },
-    pages: {
-        signIn: '/login',
-        error: '/login'
     }
 };
 

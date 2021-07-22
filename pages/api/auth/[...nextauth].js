@@ -44,7 +44,7 @@ const options = {
         session: async (session, token) => {
             session.jwt = token.jwt;
             session.user = token.user;
-            console.log('Session its solving to ->', session);
+            //console.log('Session its solving to ->', session);
             return Promise.resolve(session);
         }
     }

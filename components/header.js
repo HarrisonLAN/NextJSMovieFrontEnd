@@ -21,7 +21,7 @@ export default function Header() {
                 <div className="container mx-auto">
                     <ul className="flex">
                         <li className="mr-6">
-                            <a className="text-blue-500 hover:text-blue-800" href="/movie">Movies</a>
+                            <a className="text-blue-500 hover:text-blue-800" href="/movies">Movies</a>
                         </li>
                         <li className="mr-6">
                             <a className="text-blue-500 hover:text-blue-800" href="/account">Account</a>

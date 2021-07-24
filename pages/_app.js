@@ -2,6 +2,7 @@ import { Provider } from 'next-auth/client'
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/client';
 import { useEffect } from 'react';
+import '../styles.css';
 export default function App({ Component, pageProps }) {
   return (
     <Provider

@@ -3,6 +3,7 @@ import axios from 'axios';
 import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
 
+
 const options = {
     providers: [
         Providers.GitHub({
@@ -12,13 +13,13 @@ const options = {
         Providers.Credentials({
             name: 'Credentials',
             credentials: {
-                username: { label: 'Username', type: 'text' },
+                name: { label: 'name', type: 'text' },
                 password: { label: 'Password', type: 'password' }
             },
             async authorize(credentials) {
                 try {
                     const user = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}auth/login`, {
-                        name: credentials.username,
+                        name: credentials.name,
                         password: credentials.password
                     });
                     if (user.data) {

@@ -1,29 +1,47 @@
 import { Provider } from 'next-auth/client'
-
-// Use the <Provider> to improve performance and allow components that call
-// `useSession()` anywhere in your application to access the `session` object.
+import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/client';
+import { useEffect } from 'react';
 export default function App({ Component, pageProps }) {
   return (
     <Provider
-      // Provider options are not required but can be useful in situations where
-      // you have a short session maxAge time. Shown here with default values.
+
       options={{
-        // Client Max Age controls how often the useSession in the client should
-        // contact the server to sync the session state. Value in seconds.
-        // e.g.
-        // * 0  - Disabled (always use cache value)
-        // * 60 - Sync session state with server if it's older than 60 seconds
+
         clientMaxAge: 0,
-        // Keep Alive tells windows / tabs that are signed in to keep sending
-        // a keep alive request (which extends the current session expiry) to
-        // prevent sessions in open windows from expiring. Value in seconds.
-        //
-        // Note: If a session has expired when keep alive is triggered, all open
-        // windows / tabs will be updated to reflect the user is signed out.
+
         keepAlive: 0
       }}
       session={pageProps.session} >
-      <Component {...pageProps} />
+      <Auth>
+        <Component {...pageProps} />
+      </Auth>
     </Provider>
   )
+}
+
+function Auth({ children }) {
+  const router = useRouter();
+  const [session, loading] = useSession();
+  const isUser = !!session?.user;
+  // THE PAGE YOU WANT UNAUTHED USERS TO GO TO
+  const REDIRECT_PATH = '/login';
+  // THE PROTECTED ROUTES 
+  const PROTECTED_ROUTES = ['/movies', '/account'];
+  const isProtectedRoute = PROTECTED_ROUTES.some((route) =>
+    router.asPath.startsWith(route),
+  );
+
+  useEffect(() => {
+    if (loading) return;
+    if (!isUser && isProtectedRoute) {
+      router.push(REDIRECT_PATH);
+    }
+  }, [isUser, loading]);
+
+  if (!isProtectedRoute || router.asPath === REDIRECT_PATH) {
+    return children;
+  }
+
+  return <p> Loading... </p>;
 }

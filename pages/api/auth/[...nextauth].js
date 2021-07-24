@@ -5,6 +5,10 @@ import Providers from 'next-auth/providers';
 
 const options = {
     providers: [
+        Providers.GitHub({
+            clientId: process.env.GITHUB_ID,
+            clientSecret: process.env.GITHUB_SECRET
+        }),
         Providers.Credentials({
             name: 'Credentials',
             credentials: {
@@ -47,6 +51,10 @@ const options = {
             //console.log('Session its solving to ->', session);
             return Promise.resolve(session);
         }
+    },
+    pages: {
+        signIn: '/login',
+        error: '/login'
     }
 };
 

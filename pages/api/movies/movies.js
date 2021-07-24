@@ -3,13 +3,12 @@ const movieController = {};
 
 
 movieController.fetchFilms = async () => {
-    const data  = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}movies`);
-    return data.data;
+    const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}movies`);
+    return data;
 }
-movieController.fetchFilm = async ({ match }) => {
-    const router = useRouter()
-    const { pid } = router.query
-    const data = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}movies/${match.params.id}`);
+movieController.fetchFilm = async (id) => {
+    console.log(id);
+    const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}movies/${id}`);
     return data;
 }
 

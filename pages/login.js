@@ -1,26 +1,26 @@
 import React, { useState } from 'react';
 import Image from 'next/image'
 import logo from '../public/RIMDB-logos_transparent.png'
-import { signIn, useSession } from 'next-auth/client';
+import { signIn, signOut, useSession } from 'next-auth/client'
 import { useRouter } from 'next/router';
+
+
+function GetUser(event, name, password) {
+    event.preventDefault();
+    signIn('credentials', { name, password });
+}
 
 export default function Login() {
     const router = useRouter();
-    const [name, setname] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [session, loading] = useSession()
 
-    function GetUser() {
-        if (!session) {
-            signIn('credentials', { name, password });
-            console.log("Logging in with" + name, password)
-        } else {
-            router.push("/");
-        }
-    }
-
     function validateForm() {
-        return name.length > 0 && password.length > 0;
+        return username.length > 0 && password.length > 0;
+    }
+    if (session) {
+        router.push("/");
     }
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -38,13 +38,13 @@ export default function Login() {
                         </a>
                     </p>
                 </div>
-                <form className="mt-8 space-y-6" onSubmit={GetUser()}>
+                <form className="mt-8 space-y-6" onSubmit={(event) => GetUser(event, username, password)}>
                     <input type="hidden" name="remember" value="true" />
                     <div className="rounded-md shadow-sm -space-y-px">
                         <div>
-                            <label htmlFor="name" className="sr-only">Name</label>
-                            <input id="name" name="name" type="text" autoComplete="name" required="" className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Name" value={name}
-                                onChange={(e) => setname(e.target.value)} />
+                            <label htmlFor="username" className="sr-only">Username</label>
+                            <input id="username" name="username" type="text" autoComplete="username" required="" className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="username" value={username}
+                                onChange={(e) => setUsername(e.target.value)} />
                         </div>
                         <div>
                             <label htmlFor="password" className="sr-only">Password</label>

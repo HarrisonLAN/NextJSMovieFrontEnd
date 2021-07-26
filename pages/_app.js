@@ -36,13 +36,21 @@ function Auth({ children }) {
   useEffect(() => {
     if (loading) return;
     if (!isUser && isProtectedRoute) {
+      console.log("isnt logged in");
       router.push(REDIRECT_PATH);
     }
   }, [isUser, loading]);
 
   if (!isProtectedRoute || router.asPath === REDIRECT_PATH) {
+    console.log("default route");
     return children;
   }
+  if(session){
+    return children;
+  }else{
+    console.log("not logged in");
+  }
+  
 
   return <p> Loading... </p>;
 }

@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 import Image from 'next/image'
 import logo from '../public/RIMDB-logos_transparent.png'
-import { signIn, signOut, useSession } from 'next-auth/client'
+import { signIn, signOut, useSession , jwt} from 'next-auth/client'
 import { useRouter } from 'next/router';
 
-
-function GetUser(event, name, password) {
+function GetUser(event, name, password, session) {
     event.preventDefault();
-    signIn('credentials', { name, password });
+    const user = signIn('credentials', { name, password });
+    
 }
 
 export default function Login() {
+    const [session, loading] = useSession()
     const router = useRouter();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [session, loading] = useSession()
 
     function validateForm() {
         return username.length > 0 && password.length > 0;
@@ -38,7 +38,7 @@ export default function Login() {
                         </a>
                     </p>
                 </div>
-                <form className="mt-8 space-y-6" onSubmit={(event) => GetUser(event, username, password)}>
+                <form className="mt-8 space-y-6" onSubmit={(event) => GetUser(event, username, password, session)}>
                     <input type="hidden" name="remember" value="true" />
                     <div className="rounded-md shadow-sm -space-y-px">
                         <div>

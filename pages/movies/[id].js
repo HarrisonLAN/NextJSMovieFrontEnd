@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import Layout from '../../components/layout';
 import movieController from '../api/movies/movies';
 
 function MovieDetail({ id }) {
@@ -25,12 +26,10 @@ function MovieDetail({ id }) {
     if (!film) return <div> loading... </div>;
 
     return (
-        <div>
-            <h1>{film.title}</h1>
-            <p>
-                {film.plot} {film.imdb.rating}
-            </p>
-        </div>
+        <Layout>
+
+            
+        </Layout>
     );
 }
 export async function getStaticPaths() {

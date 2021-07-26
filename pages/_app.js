@@ -45,12 +45,7 @@ function Auth({ children }) {
     console.log("default route");
     return children;
   }
-  if(session){
-    return children;
-  }else{
-    console.log("not logged in");
-  }
-  
+  if (session) return children;
 
   return <p> Loading... </p>;
 }

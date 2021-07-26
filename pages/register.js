@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import Image from 'next/image'
 import logo from '../public/RIMDB-logos_transparent.png'
-import { signIn, signOut, useSession , jwt} from 'next-auth/client'
+import { signIn, signOut, useSession, jwt } from 'next-auth/client'
 import { useRouter } from 'next/router';
 
 function registerUser(event, name, password, session) {
     event.preventDefault();
     const user = signIn('credentials', { name, password });
-    
+
 }
 
 export default function Register() {

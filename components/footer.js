@@ -7,8 +7,8 @@ export default function Footer() {
     return (
 
         <footer>
-            <div class="py-16 flex flex-col justify-center items-center">
-            Footer
+            <div className="py-16 flex flex-col justify-center items-center">
+                Footer
             </div>
         </footer>
     )

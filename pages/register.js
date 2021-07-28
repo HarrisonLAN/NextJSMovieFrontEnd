@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import Image from 'next/image'
 import logo from '../public/RIMDB-logos_transparent.png'
-import { signIn, signOut, useSession, jwt } from 'next-auth/client'
+import { useSession } from 'next-auth/client'
 import { useRouter } from 'next/router';
+import User from './api/user/user';
+import Layout from '../components/layout';
 
-function registerUser(event, name, password, session) {
+function registerUser(event, name, password, email) {
     event.preventDefault();
-    const user = signIn('credentials', { name, password });
+    const user = User.registeruser({ name, password, email });
 
 }
 
@@ -24,22 +26,23 @@ export default function Register() {
         router.push("/");
     }
     return (
+        <Layout>
         <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-md w-full space-y-8">
                 <div>
                     <Image className=" mx-auto h-auto w-auto" src={logo} alt="Logo" />
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                        Sign in to your account
+                        Register a new account
                     </h2>
                     <p className="mt-2 text-center text-sm text-gray-600">
                         Or
                         {' '}
                         <a href="/register" className="font-medium text-indigo-600 hover:text-indigo-500">
-                            Register Now!
+                            Login Now!
                         </a>
                     </p>
                 </div>
-                <form className="mt-8 space-y-6" onSubmit={(event) => GetUser(event, username, password, session)}>
+                <form className="mt-8 space-y-6" onSubmit={(event) => registerUser(event, username, password, email)}>
                     <input type="hidden" name="remember" value="true" />
                     <div className="rounded-md shadow-sm -space-y-px">
                         <div>
@@ -58,30 +61,15 @@ export default function Register() {
                                 onChange={(e) => setPassword(e.target.value)} />
                         </div>
                     </div>
-
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                            <input id="remember-me" name="remember-me" type="checkbox" className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
-                            <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                                Remember me
-                            </label>
-                        </div>
-
-                        <div className="text-sm">
-                            <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                                Forgot your password?
-                            </a>
-                        </div>
-                    </div>
-
                     <div>
                         <button type="submit" disabled={!validateForm()} className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            Sign in
+                            Register now
                         </button>
                     </div>
                 </form>
             </div>
         </div >
+        </Layout>
 
     );
 }

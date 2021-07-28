@@ -3,8 +3,9 @@ import Image from 'next/image'
 import logo from '../public/RIMDB-logos_transparent.png'
 import { signIn, signOut, useSession , jwt} from 'next-auth/client'
 import { useRouter } from 'next/router';
+import Layout from '../components/layout';
 
-function GetUser(event, name, password, session) {
+function GetUser(event, name, password) {
     event.preventDefault();
     const user = signIn('credentials', { name, password });
     
@@ -23,6 +24,7 @@ export default function Login() {
         router.push("/");
     }
     return (
+        <Layout>
         <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-md w-full space-y-8">
                 <div>
@@ -76,6 +78,7 @@ export default function Login() {
                 </form>
             </div>
         </div >
+        </Layout>
 
     );
 }

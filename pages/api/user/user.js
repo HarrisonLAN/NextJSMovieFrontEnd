@@ -2,18 +2,15 @@ import axios from "axios";
 const userController = {};
 
 
-userController.registeruser = async (name, password, email) => {
+userController.registeruser = async ({name, password, email}) => {
     try {
-        const user = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}auth/register`, {
-            name: name,
-            password: password,
-            email: email
-        });
-        if (user.data) {
-            //console.log('Response from server auth:', user.data);
-            return user.data;
+        const payload = { name, email, password };
+        const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}auth/register`,payload);
+        if(data.success){
+            return true;
+        }else{
+            return false;
         }
-        return null;
     } catch (e) {
         console.log(e);
         const errorMsg = e.response.data.message[0].messages[0].message;

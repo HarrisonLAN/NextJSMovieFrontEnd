@@ -6,10 +6,14 @@ import { useRouter } from 'next/router';
 import User from './api/user/user';
 import Layout from '../components/layout';
 
-function registerUser(event, name, password, email) {
+async function registerUser (event, name, password, email) {
     event.preventDefault();
-    const user = User.registeruser({ name, password, email });
-
+    const res = await User.registeruser({ name, password, email });
+    if(res){
+        alert("Account Created");
+    }else{
+        alert("Account failed");
+    }
 }
 
 export default function Register() {
